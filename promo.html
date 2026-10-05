@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الدليل المرئي الاحترافي | YT Master Tool</title>
+    <style>
+        :root { --primary: #d93025; --secondary: #1a73e8; --success: #1e8e3e; --bg: #0b0f19; --card-bg: #131b2e; --text: #f3f4f6; --border: #1f293d; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        
+        .promo-container { width: 100%; max-width: 1050px; background: var(--card-bg); border-radius: 20px; border: 1px solid var(--border); box-shadow: 0 20px 40px rgba(0,0,0,0.9); display: flex; flex-direction: column; justify-content: space-between; padding: 40px; position: relative; overflow: hidden; }
+        
+        .slide { display: none; flex-direction: column; align-items: center; text-align: center; min-height: 500px; animation: fadeIn 0.5s ease-in-out; }
+        .slide.active { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+        
+        h1 { font-size: 34px; color: #fff; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; }
+        h1 span { color: var(--primary); }
+        p { font-size: 17px; color: #9ca3af; line-height: 1.6; max-width: 850px; margin-bottom: 25px; }
+        .highlight { color: var(--secondary); font-weight: bold; }
+        
+        /* تصميم السلايد المتحرك للأعمدة */
+        .columns-carousel { background: #090d16; border: 1px solid var(--border); border-radius: 12px; padding: 25px; width: 100%; max-width: 900px; text-align: right; box-shadow: inset 0 4px 10px rgba(0,0,0,0.5); }
+        .column-card-item { display: none; animation: slideIn 0.4s ease; }
+        .column-card-item.active { display: block; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+        
+        .col-title { font-size: 20px; color: var(--secondary); font-weight: bold; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+        .col-desc { font-size: 15px; color: #d1d5db; margin-bottom: 12px; }
+        .col-example { background: #1a2236; padding: 10px 15px; border-radius: 6px; border-right: 4px solid var(--success); font-family: monospace; font-size: 14px; color: #34d399; }
+
+        /* أيقونات المنصات والتصدير */
+        .export-platforms { display: flex; gap: 20px; justify-content: center; margin: 15px 0; flex-wrap: wrap; }
+        .platform-badge { background: #1a2236; border: 1px solid var(--border); padding: 12px 25px; border-radius: 10px; display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 16px; color: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 100%; max-width: 900px; margin-top: 10px; }
+        .stat-card { background: #1a2236; padding: 20px; border-radius: 12px; border-top: 4px solid var(--secondary); text-align: center; }
+        .stat-card h3 { margin: 0 0 5px 0; color: #fff; font-size: 22px; }
+        .stat-card span { color: #9ca3af; font-size: 13px; }
+
+        .controls { display: flex; justify-content: space-between; align-items: center; width: 100%; border-top: 1px solid var(--border); padding-top: 20px; margin-top: 20px; }
+        .btn { background: var(--secondary); color: white; border: none; padding: 10px 25px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; transition: 0.3s; }
+        .btn:hover { background: #1557b0; }
+        
+        .progress-dots { display: flex; gap: 8px; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; background: #374151; transition: 0.3s; }
+        .dot.active { background: var(--primary); width: 25px; border-radius: 5px; }
+        
+        .cta-btn { background: var(--success); font-size: 18px; padding: 14px 40px; text-decoration: none; color: white; border-radius: 10px; margin-top: 15px; box-shadow: 0 4px 15px rgba(30,142,62,0.4); display: inline-flex; align-items: center; gap: 10px; font-weight: bold; }
+        .cta-btn:hover { filter: brightness(1.1); }
+    </style>
+</head>
+<body>
+
+<div class="promo-container">
+    
+    <!-- الشريحة 1: المقدمة -->
+    <div class="slide active">
+        <h1>🚀 <span>YT Master Tool</span> | القوة بين يديك</h1>
+        <p>المنصة الهندسيّة الاحترافية الأولى لاستخراج، فلترة، وتحليل بيانات قنوات يوتيوب بعمق غير مسبوق وتحكم كامل.</p>
+        <div style="background: #1a2236; border: 1px solid var(--border); padding: 20px; border-radius: 12px; width: 100%; max-width: 700px; text-align: center;">
+            <span style="color: var(--success); font-weight: bold;">⚡ سرعة فائقة</span> • <span style="color: var(--secondary); font-weight: bold;">🔒 أمان محلي تام</span> • <span style="color: #f59e0b; font-weight: bold;">📊 تقارير ذكية</span>
+        </div>
+    </div>
+
+    <!-- الشريحة 2: استعراض الأعمدة ومسمياتها (سلايد داخلي) -->
+    <div class="slide">
+        <h1>📊 مخرجات تفصيلية وأعمدة مرنة</h1>
+        <p>استعرض أمثلة حية لكل عمود متاح في الأداة وكيف يظهر في المخرجات:</p>
+        
+        <div class="columns-carousel">
+            <div class="column-card-item active">
+                <div class="col-title">🎥 نوع الفيديو (Video Type)</div>
+                <div class="col-desc">يصنف الفيديو تلقائياً بناءً على مدته الزمنية بدقة ليعرف إن كان محتوى قصير أو طويل.</div>
+                <div class="col-example">مثال للمخرج: Shorts (أقل من 60 ثانية) أو فيديو طويل.</div>
+            </div>
+            <div class="column-card-item">
+                <div class="col-title">🏷️ العنوان & الوصف (Title & Description)</div>
+                <div class="col-desc">العنوان الكامل للفيديو مع نص الوصف المنظف من الفواصل والأسطر العشوائية ليتوافق مع الإكسيل.</div>
+                <div class="col-example">مثال للمخرج: "أسرار تصدر نتائج البحث في يوتيوب 2026..."</div>
+            </div>
+            <div class="column-card-item">
+                <div class="col-title">👁️ المشاهدات والإعجابات (Views & Likes)</div>
+                <div class="col-desc">إحصائيات تفاعلية دقيقة تم سحبها مباشرة من سيرفرات يوتيوب الرسمية لتتبع الأداء.</div>
+                <div class="col-example">مثال للمخرج: المشاهدات: 145,200 | الإعجابات: 12,400 | التعليقات: 950</div>
+            </div>
+            <div class="column-card-item">
+                <div class="col-title">🔍 الكلمات المفتاحية والسيو (SEO Tags & Category)</div>
+                <div class="col-desc">علامات السيو المخفية وتصنيف الفيديو الفعلي (تعليم، ترفيه، تقنية...) لتحليل منافسيك.</div>
+                <div class="col-example">مثال للمخرج: سيو: [يوتيوب، سيو، اربح من الإنترنت] | التصنيف: تعليم وتكنولوجيا</div>
+            </div>
+        </div>
+        <div style="margin-top: 10px; font-size: 13px; color: var(--secondary);">💡 استخدم أزرار التنقل بالأسفل لتغيير الشريحة أو انتظر العرض التلقائي للأعمدة</div>
+    </div>
+
+    <!-- الشريحة 3: الفلاتر الحية والبحث الجراحي -->
+    <div class="slide">
+        <h1>⚙️ الفلاتر الحية والبحث الجراحي</h1>
+        <p>تحكم مطلق في البيانات المستخرجة محلياً بدون أي استهلاك إضافي لرصيد الـ API:</p>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>بحث نصي مخصص</h3>
+                <span>ابحث حصرياً في العناوين، الوصف، أو السيو Tags.</span>
+            </div>
+            <div class="stat-card" style="border-top-color: var(--success);">
+                <h3>نطاق تاريخي دقيق</h3>
+                <span>تصفية الفيديوهات المنشورة بين تاريخين محددين.</span>
+            </div>
+            <div class="stat-card" style="border-top-color: #f59e0b;">
+                <h3>ترتيب ذكي</h3>
+                <span>فرز تنازلي وتصاعدي للمشاهدات، التاريخ، والمدة.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- الشريحة 4: التصدير لعدة منصات وتحليل أعمق -->
+    <div class="slide">
+        <h1>📥 تصدير احترافي متعدد المنصات</h1>
+        <p>لا تتوقف عند الإكسيل التقليدي؛ صدر بياناتك، انسخها، أو حللها عبر منصاتك المفضلة بضغطة زر:</p>
+        
+        <div class="export-platforms">
+            <div class="platform-badge">📊 Microsoft Excel (.xlsx)</div>
+            <div class="platform-badge" style="color: #34d399;">🌐 Google Sheets</div>
+            <div class="platform-badge" style="color: #60a5fa;">📋 الحافظة الذكية (Clipboard)</div>
+        </div>
+        <p style="font-size: 15px; margin-top: 15px;">يتيح لك النظام تسمية الملفات تلقائياً باسم قناتك وعدد الفيديوهات المستخرجة بدقة تامة لتنظيم أرشيفك.</p>
+    </div>
+
+    <!-- الشريحة 5: النهاية والانطلاق -->
+    <div class="slide">
+        <h1>✨ ابدأ رحلتك الاحترافية الآن</h1>
+        <p>ارتقِ بتحليل قناتك، اكتشف أسرار المحتوى الأعلى أداءً، ووفر ساعات من العمل اليدوي.</p>
+        <a href="index.html" class="cta-btn">🚀 الانتقال إلى لوحة التحكم الرئيسية</a>
+    </div>
+
+    <!-- أزرار التنقل -->
+    <div class="controls">
+        <button class="btn" onclick="prevSlide()">◀ السابق</button>
+        <div class="progress-dots" id="dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+        <button class="btn" onclick="nextSlide()">التالي ▶</button>
+    </div>
+</div>
+
+<script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.dot');
+    
+    // متغيرات سلايد الأعمدة الداخلي
+    let currentColumnItem = 0;
+    const colItems = document.querySelectorAll('.column-card-item');
+
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.classList.remove('active');
+            dots[i].classList.remove('active');
+        });
+        slides[index].classList.add('active');
+        dots[index].classList.add('active');
+    }
+
+    function nextSlide() {
+        // إذا كنا في شريحة الأعمدة (الشريحة رقم 1)، نقوم بتنقل الأعمدة أولاً داخلياً
+        if (currentSlide === 1 && currentColumnItem < colItems.length - 1) {
+            colItems[currentColumnItem].classList.remove('active');
+            currentColumnItem++;
+            colItems[currentColumnItem].classList.add('active');
+            return;
+        }
+        
+        currentSlide = (currentSlide + 1) % slides.length;
+        currentColumnItem = 0; // إعادة ضبط الأعمدة
+        colItems.forEach((item, i) => item.classList.toggle('active', i === 0));
+        showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+        if (currentSlide === 1 && currentColumnItem > 0) {
+            colItems[currentColumnItem].classList.remove('active');
+            currentColumnItem--;
+            colItems[currentColumnItem].classList.add('active');
+            return;
+        }
+        
+        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+        showSlide(currentSlide);
+    }
+
+    // الانتقال التلقائي كل 6 ثوانٍ
+    setInterval(nextSlide, 6000);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عن الأداة | About Tool</title>
+    <style>
+        :root { --bg: #f0f2f5; --card-bg: #ffffff; --border: #dadce0; --text: #202124; --text-muted: #5f6368; --primary: #d93025; --secondary: #1a73e8; }
+        [data-theme="dark"] { --bg: #121212; --card-bg: #1e1e1e; --border: #3c4043; --text: #e8eaed; --text-muted: #9aa0a6; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; }
+        header { position: sticky; top: 0; z-index: 1000; background: var(--card-bg); border-bottom: 1px solid var(--border); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 20px; font-weight: bold; color: var(--primary); text-decoration: none; }
+        main { max-width: 900px; margin: 40px auto; padding: 0 20px; min-height: 70vh; }
+        .card { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+        h1 { color: var(--secondary); margin-top: 0; }
+        p { line-height: 1.8; color: var(--text-muted); }
+        .btn { display: inline-block; padding: 10px 20px; background: var(--secondary); color: white; text-decoration: none; border-radius: 6px; margin-top: 20px; font-weight: bold; }
+        footer { background: #202124; color: #e8eaed; padding: 20px; text-align: center; margin-top: 40px; }
+    </style>
+<script>document.documentElement.setAttribute("data-theme",localStorage.getItem("ytTheme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"))</script>
+</head>
+<body>
+<header>
+    <a class="logo" href="index.html">🚀 YT Master Tool</a>
+</header>
+<main>
+    <div class="card">
+        <h1>عن الأداة / About Tool</h1>
+        <p>أداة يوتيوب الشاملة (YT Master Tool) هي حل برمجي هندسي احترافي مصمم خصيصاً لمساعدة صناع المحتوى والمسوقين على استخراج، تحليل، وفرز بيانات قنواتهم على يوتيوب بأعلى كفاءة وسرعة.</p>
+        <p><strong>المميزات الرئيسية:</strong> دعم اللغتين العربية والإنجليزية، الوضع الليلي والنهاري، فلاتر حية متقدمة، والتصدير المباشر لملفات إكسيل حقيقية (XLSX) أو Google Sheets.</p>
+        <a class="btn" href="index.html">العودة للرئيسية / Back to Home</a>
+    </div>
+</main>
+<footer>
+    <p>© 2026 YT Master Tool. All rights reserved.</p>
+</footer>
+</body>
+</html>
