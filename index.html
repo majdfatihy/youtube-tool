@@ -220,6 +220,8 @@
         .cards-view tr{border:1px solid var(--border);border-radius:10px;padding:8px}.cards-view td{border:0;padding:6px 8px}
         .cards-view td[data-label]::before{content:attr(data-label) ": ";font-weight:bold;color:var(--text-muted)}
         .cards-view .desc-col{max-width:none;white-space:normal}
+		/* إخفاء الإعلانات بعد الاستخراج */
+body.has-data .hide-after-fetch { display: none !important; }
     </style>
     <style id="v2">
 /* ===== v2: search-first workspace ===== */
@@ -545,6 +547,42 @@ body.thbusy #imgBtn,body.thbusy #thBtn{opacity:.55;pointer-events:none}
 </header>
 
 <main>
+<!-- بداية إعلان ما قبل الاستخراج -->
+<div class="hide-after-fetch" style="width: 100%; text-align: center; margin-bottom: 20px; overflow: hidden;">
+    <style>
+        .ad-top-desk { display: block; }
+        .ad-top-mob { display: none; }
+        @media (max-width: 768px) {
+            .ad-top-desk { display: none; }
+            .ad-top-mob { display: block; }
+        }
+    </style>
+    <div class="ad-top-desk">
+     <script>
+  atOptions = {
+    'key' : 'b438ca159fef3619cd01dd89663463be',
+    'format' : 'iframe',
+    'height' : 90,
+    'width' : 728,
+    'params' : {}
+  };
+</script>
+<script src="https://bauval.org/22/b438ca159fef3619cd01dd89663463be"></script>
+    </div>
+    <div class="ad-top-mob">
+    <script>
+  atOptions = {
+    'key' : '729c9fd7aa7322cef370e2d2f67a5788',
+    'format' : 'iframe',
+    'height' : 250,
+    'width' : 300,
+    'params' : {}
+  };
+</script>
+<script src="https://bauval.org/22/729c9fd7aa7322cef370e2d2f67a5788"></script>
+    </div>
+</div>
+<!-- نهاية الإعلان -->
     <div class="card" id="apiCard">
         <h3 class="card-header" id="apiHeader" aria-expanded="true" onclick="toggleApi()" onkeydown="if(event.key==='Enter')toggleApi()" tabindex="0" role="button" style="cursor:pointer;gap:10px;flex-wrap:wrap"><span data-i18n="apiSettings">🔑 بيانات الربط (API)</span><span id="quotaTxt" style="font-size:12px;font-weight:normal;color:var(--text-muted);margin-inline-start:auto"></span><span class="chev"></span></h3>
         <div id="apiBody">
@@ -705,7 +743,22 @@ body.thbusy #imgBtn,body.thbusy #thBtn{opacity:.55;pointer-events:none}
         </div>
     </div>
 </main>
+</main>
 
+<!-- إعلان ما قبل الفوتر (يختفي بعد الاستخراج) -->
+<div class="hide-after-fetch" style="width: 100%; text-align: center; margin: 20px 0; overflow: hidden; display: flex; justify-content: center;">
+    <script>
+      atOptions = {
+        'key' : '1e423ba61e8df2d60437276587320065',
+        'format' : 'iframe',
+        'height' : 60,
+        'width' : 468,
+        'params' : {}
+      };
+    </script>
+    <script src="https://bauval.org/22/1e423ba61e8df2d60437276587320065"></script>
+</div>
+<!-- نهاية الإعلان -->
 <div class="fab-container">
     <button class="fab-btn" id="scrollTopBtn" aria-label="top" onclick="goTop()" title="الأعلى">↑</button>
 </div>
