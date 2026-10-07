@@ -13,6 +13,11 @@
    لا يظهر أي إعلان: داخل الجدول أو الكروت أو شريط الفلاتر والبحث، ولا فوق
    شريط التبويب السفلي، ولا في وضع التركيز (Focus).
 
+   قاعدة المقاسات: لا يُصغَّر أي إعلان ولا يُضغط أبداً. كل موضع يختار النسخة التي
+   يتسع لها مكانها بمقاسها الأصلي (الهاتف: نسخة الهاتف أولاً، الحاسوب: نسخة الحاسوب
+   أولاً)، وإن لم تتسع أي نسخة يُخفى الموضع. الـ Native فقط يأخذ عرض المكان المتاح
+   (حتى w) لأنه مرن بطبيعته.
+
    حمايات تلقائية:
    • إن لصقت نفس الكود في موضعين ظاهرين معاً، يُخفى الثاني تلقائياً.
    • الإعلان الذي يختفي بتغيير التبويب يُزال من الصفحة ويُنشأ من جديد عند العودة.
@@ -113,15 +118,15 @@ window.ADS_CONFIG = {
   slots: {
     homeTop: { desktop: { w: 468, h: 60, code: ADS_CODES.b468x60 }, mobile: { w: 320, h: 50, code: ADS_CODES.b320x50 } },   // الرئيسية (قبل الاستخراج): بانر صغير فوق
     home: { desktop: { w: 728, h: 90, code: ADS_CODES.b728x90 }, mobile: { w: 300, h: 250, code: ADS_CODES.b300x250 } },      // + إعلانان تحت بعض
-    home2: { desktop: { w: 300, h: 250, code: ADS_CODES.b300x250 }, mobile: { w: 320, h: 250, auto: true, code: ADS_CODES.native } },
+    home2: { desktop: { w: 300, h: 250, code: ADS_CODES.b300x250 }, mobile: { w: 728, h: 250, auto: true, code: ADS_CODES.native } },
     apiTop: { desktop: { w: 320, h: 50, code: ADS_CODES.b320x50 }, mobile: { w: 320, h: 50, code: ADS_CODES.b320x50 } },    // تبويب API بعد الاستخراج
-    api: { desktop: { w: 728, h: 250, auto: true, code: ADS_CODES.native }, mobile: { w: 320, h: 250, auto: true, code: ADS_CODES.native } },
+    api: { desktop: { w: 728, h: 250, auto: true, code: ADS_CODES.native }, mobile: { w: 728, h: 250, auto: true, code: ADS_CODES.native } },
     api2: { desktop: { w: 728, h: 90, code: ADS_CODES.b728x90 }, mobile: { w: 300, h: 250, code: ADS_CODES.b300x250 } },
     exportTop: { desktop: { w: 468, h: 60, code: ADS_CODES.b468x60 }, mobile: { w: 320, h: 50, code: ADS_CODES.b320x50 } },  // تبويب التصدير
     export: { desktop: { w: 300, h: 250, code: ADS_CODES.b300x250 }, mobile: { w: 300, h: 250, code: ADS_CODES.b300x250 } },
-    export2: { desktop: { w: 728, h: 250, auto: true, code: ADS_CODES.native }, mobile: { w: 320, h: 250, auto: true, code: ADS_CODES.native } },
+    export2: { desktop: { w: 728, h: 250, auto: true, code: ADS_CODES.native }, mobile: { w: 728, h: 250, auto: true, code: ADS_CODES.native } },
     statsTop: { desktop: { w: 320, h: 50, code: ADS_CODES.b320x50 }, mobile: { w: 320, h: 50, code: ADS_CODES.b320x50 } },  // الإحصائيات: 3 إعلانات
-    stats: { desktop: { w: 728, h: 90, code: ADS_CODES.b728x90 }, mobile: { w: 320, h: 250, auto: true, code: ADS_CODES.native } },
+    stats: { desktop: { w: 728, h: 90, code: ADS_CODES.b728x90 }, mobile: { w: 728, h: 250, auto: true, code: ADS_CODES.native } },
     stats2: { desktop: { w: 300, h: 250, code: ADS_CODES.b300x250 }, mobile: { w: 300, h: 250, code: ADS_CODES.b300x250 } },
     results: { desktop: { w: 728, h: 250, auto: true, code: ADS_CODES.native }, mobile: { w: 300, h: 250, code: ADS_CODES.b300x250 } },     // تحت جدول الفيديوهات
     railL: { desktop: { w: 160, h: 300, code: ADS_CODES.s160x300 } },   // عمود جانبي يسار (شاشات عريضة فقط)
@@ -169,7 +174,7 @@ window.ADS_CONFIG = {
 
   var css = '.ad-slot{display:none;position:relative;box-sizing:border-box;width:100%;max-width:970px;margin:28px auto;text-align:center;overflow:hidden}'
     + '.ad-slot .ad-l{display:block;font-size:11px;line-height:1;margin:0 0 6px;color:var(--text-muted,#80868b);letter-spacing:.3px}'
-    + '.ad-slot iframe{display:block;margin:0 auto;border:0;max-width:100%;background:transparent}'
+    + '.ad-slot iframe{display:block;margin:0 auto;border:0;max-width:none;background:transparent}'
     + '.ad-slot ins{display:block}'
     + '.ad-slot:has(ins[data-ad-status="unfilled"]){display:none!important}'
     + '.ad-slot .ph-b{display:grid;place-items:center;margin:0 auto;max-width:100%;border:2px dashed var(--border,#dadce0);border-radius:12px;color:var(--text-muted,#80868b);font-size:13px;background:repeating-linear-gradient(45deg,transparent 0 10px,rgba(128,134,139,.06) 10px 20px)}'
@@ -177,7 +182,7 @@ window.ADS_CONFIG = {
     + '.ad-slot[data-ad="home"],.ad-slot[data-ad="api"],.ad-slot[data-ad="export"]{margin-top:36px}'
     + '.ad-slot.rail{position:fixed;top:84px;width:160px;margin:0;min-height:0;z-index:5}'
     + '.ad-slot[data-ad="railL"]{left:calc(50% - 556px)}.ad-slot[data-ad="railR"]{left:calc(50% + 396px)}'
-    + '.ad-slot.ad-dup{display:none!important}'
+    + '.ad-slot.ad-dup,.ad-slot.ad-nofit{display:none!important}'
     + 'body.focus .ad-slot{display:none!important}';
   Object.keys(PLACE).forEach(function (k) {
     var rule = PLACE[k].show.split(',').map(function (x) { return x + ' .ad-slot[data-ad="' + k + '"]'; }).join(',') + '{display:block}';
@@ -187,22 +192,37 @@ window.ADS_CONFIG = {
   var st = document.createElement('style'); st.id = 'ads-css'; st.textContent = css; document.head.appendChild(st);
 
   var mq = window.matchMedia ? matchMedia('(max-width:600px)') : { matches: false };
-  function spec(k) { var s = (C.slots || {})[k] || {}; return (mq.matches ? s.mobile : s.desktop) || {}; }
+  function has(c) { return !!(c && c.code && String(c.code).trim()); }
+  // اختيار النسخة المناسبة: الهاتف يفضّل نسخة الهاتف والحاسوب يفضّل نسخة الحاسوب،
+  // ولا تُستخدم أي نسخة إلا إذا اتسع لها مكانها بحجمها الأصلي (لا تصغير ولا ضغط أبداً).
+  // الـ Native فقط (auto) يأخذ عرض المكان المتاح لأنه مرن بطبيعته.
+  function pick(k, box) {
+    var s = (C.slots || {})[k] || {}, rail = PLACE[k].rail;
+    var list = rail ? [s.desktop] : (mq.matches ? [s.mobile, s.desktop] : [s.desktop, s.mobile]);
+    var av = box.clientWidth;
+    for (var i = 0; i < list.length; i++) {
+      var c = list[i]; if (!has(c)) continue;
+      var w = +c.w || 300, h = +c.h || 250;
+      if (rail || c.auto || w <= av) return { code: String(c.code).trim(), w: c.auto ? Math.min(w, av) : w, h: h, auto: !!c.auto };
+    }
+    return null;
+  }
   function shown(b) { return b.getClientRects().length > 0; }
 
   var made = [];
   Object.keys(PLACE).forEach(function (k) {
-    var P = PLACE[k], sp = spec(k), has = !!(sp.code && String(sp.code).trim());
-    if (!has && !(C.preview && !(P.rail && mq.matches))) return;
-    var w = +sp.w || (mq.matches ? 300 : 728), h = +sp.h || (mq.matches ? 250 : 90);
+    var P = PLACE[k], s = (C.slots || {})[k] || {};
+    var anyCode = has(s.desktop) || has(s.mobile);
+    if (!anyCode && !(C.preview && !(P.rail && mq.matches))) return;
+    var ref = P.rail ? s.desktop : (mq.matches ? (s.mobile || s.desktop) : (s.desktop || s.mobile)) || {};
+    var w = +ref.w || 300, h = +ref.h || 250;
     var box = document.createElement('aside');
     box.className = 'ad-slot' + (P.rail ? ' rail' : ''); box.dataset.ad = k; box.style.order = P.order == null ? '' : P.order;
     if (!P.rail) box.style.minHeight = (h + 20) + 'px';
     box.setAttribute('aria-label', 'advertisement');
     var label = document.documentElement.lang === 'en' ? 'Advertisement' : 'إعلان';
     box.innerHTML = '<span class="ad-l">' + label + '</span>'
-      + (live && has ? '<div class="ad-body"></div>' : '<div class="ph-b" style="width:' + w + 'px;height:' + h + 'px">' + k + ' · ' + w + '×' + h + '</div>');
-    box._ad = { code: has ? String(sp.code).trim() : '', w: w, h: h, auto: !!sp.auto };
+      + (live && anyCode ? '<div class="ad-body"></div>' : '<div class="ph-b" style="width:' + w + 'px;height:' + h + 'px">' + k + ' · ' + w + '×' + h + '</div>');
     if (P.rail) { document.body.appendChild(box); }
     else {
       var prev = P.afterAd && made.filter(function (m) { return m.dataset.ad === P.afterAd; })[0];
@@ -218,8 +238,8 @@ window.ADS_CONFIG = {
   addEventListener('message', function (e) {
     if (!e.data || typeof e.data.adh !== 'number') return;
     made.forEach(function (b) {
-      if (b._f && b._f.contentWindow === e.source && b._ad.auto) {
-        var h = Math.min(e.data.adh, 900) || b._ad.h; b._f.height = h; if (!b.classList.contains('rail')) b.style.minHeight = (h + 20) + 'px';
+      if (b._f && b._f.contentWindow === e.source && b._pick && b._pick.auto) {
+        var h = Math.min(e.data.adh, 900) || b._pick.h; b._f.height = h; if (!b.classList.contains('rail')) b.style.minHeight = (h + 20) + 'px';
       }
     });
   });
@@ -237,10 +257,13 @@ window.ADS_CONFIG = {
 
   function activate(box) {
     if (box._done || !shown(box)) return;
-    var a = box._ad, body = box.querySelector('.ad-body'); if (!body) return;
+    var body = box.querySelector('.ad-body'); if (!body) return;
+    var a = pick(box.dataset.ad, box);
+    if (!a) { box.classList.add('ad-nofit'); box._done = true; box._pick = null; return; }   // لا يتسع لمقاسه: لا يظهر
     // لا نكرر نفس الكود في نفس الصفحة
-    if (made.some(function (o) { return o !== box && o._done && !o.classList.contains('ad-dup') && o._ad.code === a.code && shown(o); })) { box.classList.add('ad-dup'); box._done = true; return; }
-    box._done = true;
+    if (made.some(function (o) { return o !== box && o._done && o._pick && !o.classList.contains('ad-dup') && o._pick.code === a.code && shown(o); })) { box.classList.add('ad-dup'); box._done = true; box._pick = a; return; }
+    box._done = true; box._pick = a;
+    if (!box.classList.contains('rail')) box.style.minHeight = (a.h + 20) + 'px';
     if (adsense) {
       body.innerHTML = '<ins class="adsbygoogle" style="display:block;min-height:' + a.h + 'px" data-ad-client="' + C.client + '" data-ad-slot="' + a.code + '" data-ad-format="auto" data-full-width-responsive="true"></ins>';
       try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (e) {}
@@ -257,13 +280,19 @@ window.ADS_CONFIG = {
   // إزالة إعلان لم يعد ظاهراً (تغيير التبويب) كي لا يبقى نفس الكود مكرراً في الصفحة
   function reset(box) {
     var body = box.querySelector('.ad-body'); if (body) body.innerHTML = '';
-    box._f = null; box._done = false; box.classList.remove('ad-dup');
+    box._f = null; box._done = false; box._pick = null; box.classList.remove('ad-dup', 'ad-nofit');
   }
 
   var started = false, io = null;
   function sync() {
     if (!started) return;
-    made.forEach(function (b) { if (b._done && !shown(b) && !b.classList.contains('ad-dup')) reset(b); else if (b.classList.contains('ad-dup') && !shown(b)) reset(b); });
+    made.forEach(function (b) {
+      if (!b._done) return;
+      if (!shown(b)) { reset(b); return; }
+      // تغيّر عرض الشاشة: أعد اختيار النسخة المناسبة (مثلاً دوران الهاتف)
+      var p = pick(b.dataset.ad, b);
+      if (!!p !== !!b._pick || (p && b._pick && (p.code !== b._pick.code || p.w !== b._pick.w))) reset(b);
+    });
     made.forEach(function (b) { if (!b._done && shown(b) && io) { io.unobserve(b); io.observe(b); } });
   }
   function observe() {
