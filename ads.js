@@ -22,7 +22,8 @@
    • إن لصقت نفس الكود في موضعين ظاهرين معاً، يُخفى الثاني تلقائياً.
    • الإعلان الذي يختفي بتغيير التبويب يُزال من الصفحة ويُنشأ من جديد عند العودة.
    • الأعمدة الجانبية لا تظهر إلا إذا اتسع الجانبان لها (عرض ≥ 1140px وارتفاع ≥ 720px للـ 600).
-   • كل إعلان داخل iframe معزول: لا يقرأ صفحة الأداة ولا مفتاح الـ API.
+   • الإعلانات تُدرج مباشرة (isolate:false) كي يرى مصدر الإعلان نطاق موقعك. للعودة للعزل اجعلها true.
+   • تُحمَّل الإعلانات واحداً تلو الآخر حتى لا يتعارض متغير atOptions بين إعلان وآخر.
    • الإنشاء بعد أول تفاعل أو 4 ثوانٍ، وعند اقتراب الإعلان من الشاشة فقط.
 
    تحذيرات:
@@ -109,7 +110,7 @@ window.ADS_CONFIG = {
   enabled: true,         // المفتاح الرئيسي: false لإيقاف كل الإعلانات
   preview: false,        // true = مربعات تجريبية لترى الأماكن بدون أي منصة
   provider: 'custom',    // 'custom' = أي منصة (الصق الكود) | 'adsense' = أدسنس (client + رقم الوحدة)
-  isolate: true,         // custom فقط: عرض الكود داخل iframe معزول (موصى به)
+  isolate: false,        // false = الإعلان يُدرج مباشرة في الصفحة فيرى مصدر الإعلان موقعك (مطلوب لظهور إعلانات Adsterra)
   client: '',            // adsense فقط: ca-pub-XXXXXXXXXXXXXXXX
 
   // لكل موضع: إعلان للسطح المكتب وآخر للهاتف (الهاتف = عرض شاشة ≤ 600px).
@@ -244,15 +245,46 @@ window.ADS_CONFIG = {
     });
   });
 
-  // نسخ الـ script بحيث تعمل عند الإدراج المباشر (isolate:false)
-  function inject(el, html) {
-    var t = document.createElement('template'); t.innerHTML = html;
-    t.content.querySelectorAll('script').forEach(function (o) {
-      var n = document.createElement('script');
-      Array.prototype.forEach.call(o.attributes, function (a) { n.setAttribute(a.name, a.value); });
-      n.text = o.text; o.replaceWith(n);
-    });
-    el.appendChild(t.content);
+  // إدراج مباشر: ينسخ الـ script ليعمل، ويلتقط document.write الذي تستخدمه
+  // سكربتات الإعلانات (invoke.js) ويضع ناتجه داخل حاوية الإعلان نفسها.
+  var queue = [], busy = false;
+  function runNext() {
+    if (busy) return;
+    var job = queue.shift(); if (!job) return;
+    busy = true;
+    job(function () { busy = false; runNext(); });
+  }
+  function inject(el, html, done) {
+    var pending = 0, finished = false, timer;
+    var ow = document.write, owl = document.writeln;
+    function fin() {
+      if (finished) return; finished = true; clearTimeout(timer);
+      document.write = ow; document.writeln = owl;
+      if (done) done();
+    }
+    function check() { if (pending <= 0) fin(); }
+    function put(frag) {
+      Array.prototype.slice.call(frag.childNodes).forEach(function (node) {
+        if (node.nodeName !== 'SCRIPT') { el.appendChild(node); return; }
+        var n = document.createElement('script');
+        Array.prototype.forEach.call(node.attributes, function (at) { n.setAttribute(at.name, at.value); });
+        if (node.src) {
+          pending++;
+          n.onload = n.onerror = function () { pending--; check(); };
+        } else n.text = node.text;
+        el.appendChild(n);
+      });
+    }
+    function write() {
+      var t = document.createElement('template');
+      t.innerHTML = Array.prototype.join.call(arguments, '');
+      put(t.content);
+    }
+    document.write = write; document.writeln = write;
+    timer = setTimeout(fin, 8000);   // لا نعطّل بقية الإعلانات إن تأخر هذا
+    var tpl = document.createElement('template'); tpl.innerHTML = html;
+    put(tpl.content);
+    check();
   }
 
   function activate(box) {
@@ -274,7 +306,7 @@ window.ADS_CONFIG = {
       f.referrerPolicy = 'strict-origin-when-cross-origin';
       f.srcdoc = '<!doctype html><html><head><meta charset="utf-8"><base target="_blank"><style>html,body{margin:0;padding:0;overflow:hidden;background:transparent}body{' + (a.auto ? 'display:block' : 'display:flex;justify-content:center') + '}</style></head><body>' + a.code + (a.auto ? '<script>(function(){function r(){parent.postMessage({adh:document.body.scrollHeight},"*")}if(window.ResizeObserver)new ResizeObserver(r).observe(document.body);addEventListener("load",r);setTimeout(r,1500)})()<\/script>' : '') + '</body></html>';
       body.appendChild(f);
-    } else inject(body, a.code);
+    } else { queue.push(function (next) { inject(body, a.code, next); }); runNext(); }
   }
 
   // إزالة إعلان لم يعد ظاهراً (تغيير التبويب) كي لا يبقى نفس الكود مكرراً في الصفحة
