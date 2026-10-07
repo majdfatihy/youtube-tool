@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>اختبار الإعلانات</title>
+<style>
+body{font:15px/1.7 system-ui,sans-serif;margin:0;padding:16px;background:#f6f7f9;color:#222}
+h1{font-size:18px;margin:0 0 12px}
+.box{background:#fff;border:1px solid #ddd;border-radius:10px;padding:12px;margin-bottom:12px}
+#ad{min-height:270px;border:2px dashed #bbb;border-radius:8px;display:flex;justify-content:center;align-items:flex-start;padding-top:10px}
+.ok{color:#0a7d2c}.bad{color:#c62828}.warn{color:#b26a00}
+li{margin:3px 0}
+</style>
+</head>
+<body>
+<h1>اختبار إعلانات bauval.org</h1>
+
+<div class="box"><b>1) البيئة</b><ul id="env"></ul></div>
+<div class="box"><b>2) هل سكربت الإعلان يُحمَّل؟</b><ul id="net"></ul></div>
+<div class="box"><b>3) إعلان 300×250 (إدراج مباشر)</b><div id="ad"></div></div>
+<div class="box"><b>4) النتيجة</b><ul id="res"></ul></div>
+
+<script>
+function log(id, cls, txt){var li=document.createElement('li');li.className=cls;li.textContent=txt;document.getElementById(id).appendChild(li)}
+
+// 1) البيئة
+log('env', location.protocol==='file:'?'bad':'ok', 'الرابط: '+location.href);
+if(location.protocol==='file:') log('env','bad','الصفحة مفتوحة كملف محلي — ارفعها على نطاقك (https) وإلا لن تظهر إعلانات.');
+if(/^(localhost|127\.|192\.168\.)/.test(location.hostname)) log('env','warn','أنت على localhost — غالباً لا تُعرض إعلانات هنا.');
+log('env', location.protocol==='https:'?'ok':'warn', 'البروتوكول: '+location.protocol+(location.protocol==='https:'?'':' (يُفضّل https)'));
+
+// 2) هل يُحجب النطاق؟
+var probe=document.createElement('script');
+probe.src='https://bauval.org/22/729c9fd7aa7322cef370e2d2f67a5788?probe='+Date.now();
+probe.onload=function(){log('net','ok','تم تحميل سكربت bauval.org بنجاح')};
+probe.onerror=function(){log('net','bad','تعذّر تحميل bauval.org — مانع إعلانات/DNS/شبكة يحجبه. عطّل المانع وجرّب شبكة أخرى.')};
+document.head.appendChild(probe);
+
+// 3) حقن الإعلان مباشرة مع التقاط document.write
+var box=document.getElementById('ad'), ow=document.write, owl=document.writeln;
+function put(html){
+  var t=document.createElement('template');t.innerHTML=html;
+  Array.prototype.slice.call(t.content.childNodes).forEach(function(n){
+    if(n.nodeName!=='SCRIPT'){box.appendChild(n);return}
+    var s=document.createElement('script');
+    Array.prototype.forEach.call(n.attributes,function(a){s.setAttribute(a.name,a.value)});
+    if(!n.src) s.text=n.text;
+    else s.onerror=function(){log('res','bad','فشل تحميل: '+n.src)};
+    box.appendChild(s);
+  });
+}
+document.write=document.writeln=function(){put(Array.prototype.join.call(arguments,''))};
+window.atOptions={'key':'729c9fd7aa7322cef370e2d2f67a5788','format':'iframe','height':250,'width':300,'params':{}};
+var s=document.createElement('script');
+s.src='https://bauval.org/22/729c9fd7aa7322cef370e2d2f67a5788/invoke.js';
+s.src='https://bauval.org/22/729c9fd7aa7322cef370e2d2f67a5788';
+box.appendChild(s);
+
+// 4) الفحص بعد 8 ثوانٍ
+setTimeout(function(){
+  document.write=ow;document.writeln=owl;
+  var f=box.querySelector('iframe');
+  if(!f){
+    log('res','bad','لم يُنشأ أي iframe: السكربت لم يُنفَّذ أو حُجب. راجع الخطوة 2 وافتح Console للأخطاء.');
+  }else{
+    log('res','ok','أُنشئ iframe بحجم '+f.offsetWidth+'×'+f.offsetHeight);
+    log('res','warn','إن بقي الإطار فارغاً فالمشكلة من المنصة لا من الكود: تأكد أن نطاقك مُضاف ومعتمد في لوحة Adsterra، وأن الحساب مفعّل، وأن هذا الـ key ينتمي لنطاقك. الإعلانات الجديدة قد تحتاج ساعات للبدء.');
+  }
+},8000);
+</script>
+</body>
+</html>
