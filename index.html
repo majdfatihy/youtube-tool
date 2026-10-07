@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" data-theme="light">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-45N8QEV7PL"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-45N8QEV7PL');
-</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="أداة متقدمة لاستخراج وتحليل بيانات قنوات يوتيوب الشاملة، مع فلاتر حية وتصدير للإكسيل.">
@@ -200,7 +191,7 @@
         .tswrap{position:relative}
         .tsb{display:none;position:absolute;top:50%;transform:translateY(-50%);z-index:5;width:34px;height:64px;border-radius:10px;border:0;background:var(--secondary);color:#fff;font-size:24px;opacity:.9;cursor:pointer;box-shadow:0 2px 10px #0005}
         .tsb.l{left:4px}.tsb.r{right:4px}.tswrap.hl .tsb.l,.tswrap.hr .tsb.r{display:block}
-        #filBtn,#fabs{display:none}body.has-ch #sideEmpty{display:none}#sideEmpty{padding:18px;line-height:1.8}#sideEmpty .btn{margin-top:8px;width:100%}
+        #filBtn,#fabs{display:none}body.has-ch #helpVid{display:none}
         .fabx{width:46px;height:46px;border-radius:50%;border:0;background:var(--secondary);color:#fff;box-shadow:0 4px 14px #0006;cursor:pointer;font-size:20px;opacity:.9}
         body.focus header,body.focus footer,body.focus #apiCard,body.focus #statsWrap,body.focus .fab-container{display:none!important}
         body.focus main{max-width:none;margin:0;padding:12px}body.focus .dash{display:block}
@@ -210,7 +201,7 @@
         body.focus .table-responsive{max-height:calc(100vh - 170px);overflow:auto}body.focus thead th{position:sticky;top:0;background:var(--card-bg);z-index:3}
         body.focus #fabs{display:flex;position:fixed;bottom:18px;left:18px;gap:10px;z-index:1800}
         body.focus #filBtn{display:inline-flex}body.focus:not(.fil) #vrF,body.focus:not(.fil) #vrC{display:none}
-        @media all{#focusBtn{display:none}#filBtn{display:inline-flex}body:not(.fil) #vrF,body:not(.fil) #vrC{display:none}.chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;width:100%}.chips::-webkit-scrollbar{display:none}.chips button{flex:0 0 auto}#sideEmpty{display:none}}
+        @media all{#focusBtn{display:none}#filBtn{display:inline-flex}body:not(.fil) #vrF,body:not(.fil) #vrC{display:none}.chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;width:100%}.chips::-webkit-scrollbar{display:none}.chips button{flex:0 0 auto}#helpVid{display:none}}
         .th-btn{background:none;border:0;font:inherit;font-weight:bold;color:inherit;cursor:pointer;padding:0}
         :focus-visible{outline:3px solid var(--secondary);outline-offset:2px}
         #cancelBtn{width:100%;margin-top:10px}
@@ -220,8 +211,6 @@
         .cards-view tr{border:1px solid var(--border);border-radius:10px;padding:8px}.cards-view td{border:0;padding:6px 8px}
         .cards-view td[data-label]::before{content:attr(data-label) ": ";font-weight:bold;color:var(--text-muted)}
         .cards-view .desc-col{max-width:none;white-space:normal}
-		/* إخفاء الإعلانات بعد الاستخراج */
-body.has-data .hide-after-fetch { display: none !important; }
     </style>
     <style id="v2">
 /* ===== v2: search-first workspace ===== */
@@ -310,7 +299,7 @@ body.dense .why{display:none}
 body.api-pop #apiBg{display:block}
 
 /* ---- focus mode ---- */
-body.focus #channelInfoCard,body.focus #controlPanelCard,body.focus #exportCard,body.focus #statsEntry,body.focus #sideEmpty,body.focus #apiCard{display:none!important}
+body.focus #channelInfoCard,body.focus #controlPanelCard,body.focus #exportCard,body.focus #statsEntry,body.focus #helpVid,body.focus #apiCard{display:none!important}
 body.focus #fabs{display:flex;position:fixed;left:auto;inset-inline-start:14px;bottom:calc(14px + env(safe-area-inset-bottom));z-index:1800}
 .dialmain{width:46px;height:46px;border-radius:50%;border:0;background:var(--secondary);color:#fff;display:grid;place-items:center;box-shadow:0 4px 14px #0006;opacity:.55;cursor:pointer;transition:opacity .2s,transform .25s}
 .dialmain:hover,body.dial-open .dialmain{opacity:1}
@@ -345,8 +334,8 @@ html[dir="ltr"] body.focus .tbar{margin-left:62px}
   .kwtag{display:none}
   .dash{display:flex!important;flex-direction:column;gap:12px}
   .side,.main{display:contents!important}
-  #apiCard{order:1}#sideEmpty{order:2}#channelInfoCard{order:3}#statsEntry{order:4}#statsWrap{order:5}#viewBar{order:6}#tableContainer{order:7}#exportCard{order:8}
-  body:not(.has-ch) #sideEmpty{display:block!important}
+  #apiCard{order:1}#helpVid{order:2}#channelInfoCard{order:3}#statsEntry{order:4}#statsWrap{order:5}#viewBar{order:6}#tableContainer{order:7}#exportCard{order:8}
+  body:not(.has-ch) #helpVid{display:block!important}
   #apiCard{padding:18px}
   #viewBar{position:sticky;top:0;z-index:40;margin:0;border-radius:14px;box-shadow:0 4px 16px rgba(0,0,0,.12)}
   #tableContainer{padding:8px;margin:0}
@@ -440,7 +429,7 @@ body.cardsv #densBtn{display:none}
   body.has-data[data-tab="videos"]:not(.focus) header{display:flex!important}
   header{position:static}
   .charts{grid-template-columns:1fr 1fr!important}
-  #apiCard,#sideEmpty,#exportCard,#channelInfoCard{max-width:760px;margin-inline:auto!important;width:100%}
+  #apiCard,#helpVid,#exportCard,#channelInfoCard{max-width:760px;margin-inline:auto!important;width:100%}
   #tabbar.tabbar{left:50%;right:auto;transform:translateX(-50%);width:min(560px,92vw)}
   #controlPanelCard{left:50%!important;right:auto!important;width:min(780px,96vw);transform:translate(-50%,110%)!important;border-radius:20px 20px 0 0!important}
   body.sheet #controlPanelCard{transform:translate(-50%,0)!important}
@@ -531,6 +520,22 @@ body.dragging::after{content:"أفلت الملف هنا للاستيراد";pos
 #imgBtn .cc{background:var(--border);border-radius:9px;padding:0 7px;font-size:12px}
 body.thbusy #imgBtn,body.thbusy #thBtn{opacity:.55;pointer-events:none}
 @media(max-width:520px){#imgBtn .cw{display:none}}
+/* ---- tutorial video card (replaces the old "start here" box) ---- */
+#helpVid{padding:16px;line-height:1.6}
+#helpVid .hv-h{display:flex;gap:12px;align-items:center;margin-bottom:12px}
+#helpVid .hv-i{flex:none;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:color-mix(in srgb,var(--secondary) 12%,transparent);color:var(--secondary)}
+#helpVid .hv-i svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#helpVid .hv-h b{display:block;font-size:15px}
+#helpVid .hv-h small{color:var(--text-muted);font-size:12.5px}
+#helpVid .hv-p,#helpVid .hv-f{position:relative;display:block;width:100%;aspect-ratio:16/9;border:0;padding:0;border-radius:12px;overflow:hidden;background:#000;cursor:pointer}
+#helpVid .hv-p img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s,filter .2s}
+#helpVid .hv-p:hover img{transform:scale(1.03);filter:brightness(.92)}
+#helpVid .hv-b{position:absolute;inset:0;margin:auto;width:60px;height:60px;border-radius:50%;background:var(--secondary);display:grid;place-items:center;box-shadow:0 6px 20px rgba(0,0,0,.35);transition:transform .2s}
+#helpVid .hv-p:hover .hv-b{transform:scale(1.08)}
+#helpVid .hv-b svg{width:26px;height:26px;fill:#fff;transform:translateX(2px)}
+#helpVid .hv-f{cursor:default}#helpVid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+#helpVid .hv-l{display:inline-block;margin-top:10px;font-size:13px;color:var(--secondary);text-decoration:none;font-weight:600}
+html body #helpVid:empty{display:none!important}
 </style>
 <script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('ytTheme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'))}catch(e){}</script>
 </head>
@@ -540,49 +545,13 @@ body.thbusy #imgBtn,body.thbusy #thBtn{opacity:.55;pointer-events:none}
     <a class="logo" href="index.html">🚀 <span id="logoText">أداة يوتيوب الشاملة</span></a>
     <div class="header-actions">
         <button class="icon-btn" id="apiIconBtn" onclick="toggleApi(false)" aria-label="API" title="🔑 API" style="display:none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="M10.8 12.2 20 3m-3 3 3 3m-6 0 2 2"/></svg></button>
-        <button class="icon-btn" onclick="openGuide()" aria-label="guide" title="؟"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.5-3 4M12 17.5h.01"/></svg></button>
+        <button class="icon-btn" id="helpBtn" onclick="openHelp()" aria-label="guide" title="؟"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.5-3 4M12 17.5h.01"/></svg></button>
         <button class="icon-btn" onclick="toggleTheme()" id="themeBtn" aria-label="theme"></button>
         <button class="icon-btn" onclick="toggleLanguage()" id="langBtn" style="color: var(--secondary);">EN</button>
     </div>
 </header>
 
 <main>
-<!-- بداية إعلان ما قبل الاستخراج -->
-<div class="hide-after-fetch" style="width: 100%; text-align: center; margin-bottom: 20px; overflow: hidden;">
-    <style>
-        .ad-top-desk { display: block; }
-        .ad-top-mob { display: none; }
-        @media (max-width: 768px) {
-            .ad-top-desk { display: none; }
-            .ad-top-mob { display: block; }
-        }
-    </style>
-    <div class="ad-top-desk">
-     <script>
-  atOptions = {
-    'key' : 'b438ca159fef3619cd01dd89663463be',
-    'format' : 'iframe',
-    'height' : 90,
-    'width' : 728,
-    'params' : {}
-  };
-</script>
-<script src="https://bauval.org/22/b438ca159fef3619cd01dd89663463be"></script>
-    </div>
-    <div class="ad-top-mob">
-    <script>
-  atOptions = {
-    'key' : '729c9fd7aa7322cef370e2d2f67a5788',
-    'format' : 'iframe',
-    'height' : 250,
-    'width' : 300,
-    'params' : {}
-  };
-</script>
-<script src="https://bauval.org/22/729c9fd7aa7322cef370e2d2f67a5788"></script>
-    </div>
-</div>
-<!-- نهاية الإعلان -->
     <div class="card" id="apiCard">
         <h3 class="card-header" id="apiHeader" aria-expanded="true" onclick="toggleApi()" onkeydown="if(event.key==='Enter')toggleApi()" tabindex="0" role="button" style="cursor:pointer;gap:10px;flex-wrap:wrap"><span data-i18n="apiSettings">🔑 بيانات الربط (API)</span><span id="quotaTxt" style="font-size:12px;font-weight:normal;color:var(--text-muted);margin-inline-start:auto"></span><span class="chev"></span></h3>
         <div id="apiBody">
@@ -691,8 +660,8 @@ body.thbusy #imgBtn,body.thbusy #thBtn{opacity:.55;pointer-events:none}
                     <input type="text" id="liveKeyword" placeholder="..." oninput="debouncedFilter()">
                     <div style="display:flex; gap:10px; margin-top:5px; flex-wrap:wrap;">
                         <label style="font-size:12px;"><input type="checkbox" id="sTitle" checked onchange="applyLiveFilters()"> <span data-i18n="colTitle">العناوين</span></label>
-                        <label style="font-size:12px;"><input type="checkbox" id="sDesc" checked onchange="applyLiveFilters()"> <span data-i18n="colDesc">الوصف</span></label>
-                        <label style="font-size:12px;"><input type="checkbox" id="sTags" checked onchange="applyLiveFilters()"> <span data-i18n="colTags">الكلمات المفتاحية</span></label>
+                        <label style="font-size:12px;"><input type="checkbox" id="sDesc" onchange="applyLiveFilters()"> <span data-i18n="colDesc">الوصف</span></label>
+                        <label style="font-size:12px;"><input type="checkbox" id="sTags" onchange="applyLiveFilters()"> <span data-i18n="colTags">الكلمات المفتاحية</span></label>
                     </div>
                 </div>
                 <div class="input-group" style="display:none">
@@ -743,27 +712,13 @@ body.thbusy #imgBtn,body.thbusy #thBtn{opacity:.55;pointer-events:none}
         </div>
     </div>
 </main>
-</main>
 
-<!-- إعلان ما قبل الفوتر (يختفي بعد الاستخراج) -->
-<div class="hide-after-fetch" style="width: 100%; text-align: center; margin: 20px 0; overflow: hidden; display: flex; justify-content: center;">
-    <script>
-      atOptions = {
-        'key' : '1e423ba61e8df2d60437276587320065',
-        'format' : 'iframe',
-        'height' : 60,
-        'width' : 468,
-        'params' : {}
-      };
-    </script>
-    <script src="https://bauval.org/22/1e423ba61e8df2d60437276587320065"></script>
-</div>
-<!-- نهاية الإعلان -->
 <div class="fab-container">
     <button class="fab-btn" id="scrollTopBtn" aria-label="top" onclick="goTop()" title="الأعلى">↑</button>
 </div>
 
 <footer>
+    <div id="socialLinks" class="social-links"></div>
     <div class="footer-links">
         <a href="privacy.html" data-i18n="privacyPolicy">Privacy Policy</a>
         <a href="terms.html" data-i18n="termsOfUse">Terms of Use</a>
@@ -811,6 +766,7 @@ body.thbusy #imgBtn,body.thbusy #thBtn{opacity:.55;pointer-events:none}
     <img id="modalImg">
 </div>
 
+<script src="links.js"></script>
 <script>
     const dict = {
         ar: { 
@@ -932,6 +888,11 @@ body.thbusy #imgBtn,body.thbusy #thBtn{opacity:.55;pointer-events:none}
     function togglePanel(h, id) { const b = document.getElementById(id), open = b.style.display === 'none'; b.style.display = open ? '' : 'none'; h.setAttribute('aria-expanded', open); }
     function openGuide() { document.getElementById('guideModal').style.display = 'flex'; }
     function closeGuide() { document.getElementById('guideModal').style.display = 'none'; }
+    function openHelp() {
+        const L = window.SITE_LINKS || {}, id = String((L.tutorial || {}).id || '').trim();
+        const u = L.helpVideoUrl || (/^[\w-]{11}$/.test(id) ? 'https://www.youtube.com/watch?v=' + id : '');
+        if (u) window.open(u, '_blank', 'noopener'); else openGuide();
+    }
     function setProg(prefix, p, text) { document.getElementById(prefix + 'Bar').style.width = p + '%'; document.getElementById(prefix + 'Label').textContent = text; }
     function showChannel(ch) {
         const sn = ch.snippet, st = ch.statistics || {}, ban = ch.brandingSettings && ch.brandingSettings.image && ch.brandingSettings.image.bannerExternalUrl;
@@ -1330,34 +1291,43 @@ body.thbusy #imgBtn,body.thbusy #thBtn{opacity:.55;pointer-events:none}
         const cols = checks.map(cb => cb.value), names = checks.map(cb => cb.nextElementSibling.innerText.trim());
         const ids = new Set(Array.from(document.querySelectorAll('.row-checkbox:checked')).map(cb => cb.value));
         const data = ids.size ? globalVideosData.filter(v => ids.has(v.id)) : globalVideosData;
-        const aoa = [["#", ...names]]; data.forEach((v, i) => aoa.push([i + 1, ...cols.map(c => cellVal(v, c))]));
-        exported = true; return { aoa, dataLength: data.length, cols, data };
+        const off = showNums ? 1 : 0, aoa = [off ? ["#", ...names] : [...names]]; data.forEach((v, i) => { const r = cols.map(c => cellVal(v, c)); aoa.push(off ? [i + 1, ...r] : r); });
+        exported = true; return { aoa, dataLength: data.length, cols, data, off };
+    }
+
+    async function copyText(text) {
+        try { if (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(text); return true; } } catch (e) {}
+        try {
+            const ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', '');
+            ta.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;pointer-events:none';
+            document.body.appendChild(ta); ta.focus(); ta.select(); ta.setSelectionRange(0, text.length);
+            const ok = document.execCommand('copy'); ta.remove(); return ok;
+        } catch (e) { return false; }
     }
 
     async function copySelected() {
         let { aoa, dataLength } = getCleanDataForExport();
-        let text = aoa.map(row => row.map(cell => String(cell).replace(/\n/g, ' ')).join('\t')).join('\n');
-        try { await navigator.clipboard.writeText(text); toast(currentLang === 'ar' ? `تم نسخ ${dataLength} عنصر ✓` : `Copied ${dataLength} items ✓`); } catch (err) { toast(T('تعذر النسخ', 'Copy failed')); }
+        let text = aoa.map(row => row.map(cell => String(cell).replace(/[\t\r\n]+/g, ' ')).join('\t')).join('\n');
+        if (await copyText(text)) toast(currentLang === 'ar' ? `تم نسخ ${dataLength} عنصر ✓` : `Copied ${dataLength} items ✓`); else toast(T('تعذر النسخ', 'Copy failed'));
     }
 
     async function openInGoogleSheets() {
         if((dataMode === 'playlists' ? plView : globalVideosData).length === 0) return alert(currentLang === 'ar' ? 'لا توجد بيانات.' : 'No data.');
         let { aoa } = getCleanDataForExport();
-        let text = aoa.map(row => row.map(cell => String(cell).replace(/\n/g, ' ')).join('\t')).join('\n');
-        try {
-            await navigator.clipboard.writeText(text);
+        let text = aoa.map(row => row.map(cell => String(cell).replace(/[\t\r\n]+/g, ' ')).join('\t')).join('\n');
+        if (await copyText(text)) {
             alert(currentLang === 'ar' ? 'تم النسخ! سيفتح جوجل شيت، اضغط لصق (Ctrl+V).' : 'Copied! Paste in Google Sheets (Ctrl+V).');
             window.open('https://sheet.new', '_blank');
-        } catch (e) {}
+        } else alert(T('تعذر النسخ تلقائياً.', 'Automatic copy failed.'));
     }
 
     function exportToExcel() {
         if (!(dataMode === 'playlists' ? plView : globalVideosData).length) return alert(T('لا توجد بيانات.', 'No data.'));
-        const { aoa, dataLength, cols, data } = getCleanDataForExport();
+        const { aoa, dataLength, cols, data, off } = getCleanDataForExport();
         const ws = XLSX.utils.aoa_to_sheet(aoa), wb = XLSX.utils.book_new();
         ws['!cols'] = aoa[0].map((_, i) => ({ wch: Math.min(60, Math.max(8, ...aoa.slice(0, 50).map(r => String(r[i]).length))) }));
         ws['!autofilter'] = { ref: ws['!ref'] };
-        const ui = cols.indexOf('url'); if (ui > -1) data.forEach((v, r) => { const c = ws[XLSX.utils.encode_cell({ r: r + 1, c: ui + 1 })]; if (c) c.l = { Target: v.url }; });
+        const ui = cols.indexOf('url'); if (ui > -1) data.forEach((v, r) => { const c = ws[XLSX.utils.encode_cell({ r: r + 1, c: ui + off })]; if (c) c.l = { Target: v.url }; });
         XLSX.utils.book_append_sheet(wb, ws, "YouTube Data");
         XLSX.writeFile(wb, `${(document.getElementById('chTitle').innerText || "YouTube_Channel").replace(/[\\/:*?"<>|]/g, "")}_${dataLength}_${dataMode === 'playlists' ? 'Playlists' : 'Videos'}.xlsx`);
     }
@@ -1369,8 +1339,8 @@ body.thbusy #imgBtn,body.thbusy #thBtn{opacity:.55;pointer-events:none}
     }
     function exportJSON() {
         if (!(dataMode === 'playlists' ? plView : globalVideosData).length) return alert(T('لا توجد بيانات.', 'No data.'));
-        const { aoa, dataLength } = getCleanDataForExport(), h = aoa[0].slice(1);
-        download(`YouTube_${dataLength}_${dataMode === 'playlists' ? 'Playlists' : 'Videos'}.json`, 'application/json', JSON.stringify(aoa.slice(1).map(r => Object.fromEntries(h.map((k, i) => [k, r[i + 1]]))), null, 2));
+        const { aoa, dataLength, off } = getCleanDataForExport(), h = aoa[0].slice(off);
+        download(`YouTube_${dataLength}_${dataMode === 'playlists' ? 'Playlists' : 'Videos'}.json`, 'application/json', JSON.stringify(aoa.slice(1).map(r => Object.fromEntries(h.map((k, i) => [k, r[i + off]]))), null, 2));
     }
 
     function changePageSize() { currentPage = 1; renderTable(); }
@@ -1405,14 +1375,28 @@ function toast(m) { let t = $$('toast'); if (!t) { t = document.createElement('d
 function activeFilters() {
     return (($$('liveDateFrom').value ? 1 : 0) + ($$('liveDateTo').value ? 1 : 0) + (typeMode ? 1 : 0) + (catMode ? 1 : 0) + (plMode !== 'all' ? 1 : 0) + ($$('livePlaylist').value ? 1 : 0));
 }
+function renderHelpVid(em) {
+    const L = window.SITE_LINKS || {}, id = String((L.tutorial || {}).id || '').trim(), ok = /^[\w-]{11}$/.test(id), b = document.body;
+    if (!ok || b.classList.contains('has-ch') || b.classList.contains('has-data')) { if (em.dataset.k) { em.innerHTML = ''; em.dataset.k = ''; } return; }
+    const k = currentLang + '|' + id; if (em.dataset.k === k) return; em.dataset.k = k;
+    const ttl = T('شرح الأداة وطريقة جلب مفتاح API', 'How the tool works & how to get your API key');
+    em.innerHTML = `<div class="hv-h"><span class="hv-i"><svg viewBox="0 0 24 24"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10 9.5v5l4.5-2.5z"/></svg></span><div><b>${ttl}</b><small>${T('فيديو قصير يأخذك خطوة بخطوة', 'A short step-by-step video')}</small></div></div>`
+        + `<button type="button" class="hv-p" aria-label="${T('تشغيل الفيديو', 'Play video')}"><img src="https://i.ytimg.com/vi/${id}/hqdefault.jpg" alt="" loading="lazy"><span class="hv-b"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span></button>`
+        + `<a class="hv-l" href="https://www.youtube.com/watch?v=${id}" target="_blank" rel="noopener">${T('فتح على يوتيوب ↗', 'Open on YouTube ↗')}</a>`;
+    em.querySelector('.hv-p').onclick = () => { em.querySelector('.hv-p').outerHTML = `<div class="hv-f"><iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&playsinline=1" title="${esc(ttl)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>`; };
+}
+function syncHelp() {
+    const hb = $$('helpBtn'); if (hb) { const t = T('شرح الأداة على يوتيوب', 'Watch the tutorial on YouTube'); hb.title = t; hb.setAttribute('aria-label', t); }
+    const em = $$('helpVid'); if (em) renderHelpVid(em);
+}
 function renderTabbar() {
     const b = document.body, has = b.classList.contains('has-data'), cur = b.classList.contains('sheet') ? 'filters' : (b.dataset.tab || 'videos'), foc = b.classList.contains('focus');
     $$('tabbar').innerHTML = TABS.map(([k, p, a, e]) => { const off = !has && k !== 'api', on = has ? k === cur : k === 'api'; return `<button class="${on ? 'on' : ''}${off ? ' off' : ''}" onclick="setTab('${k}')" aria-label="${T(a, e)}"${on ? ' aria-current="page"' : ''}><span class="ic"><svg viewBox="0 0 24 24">${p}</svg></span><span class="tl">${T(a, e)}</span></button>`; }).join('') + (foc ? '<i class="sep"></i>' + [['top', IC.up, T('للأعلى', 'Top')], ['theme', IC.theme, T('الوضع', 'Theme')], ['exit', IC.shrink, T('خروج', 'Exit')]].map(([k, ic, l]) => `<button onclick="dialDo('${k}')" aria-label="${l}"><span class="ic">${ic}</span><span class="tl">${l}</span></button>`).join('') : '');
     const eh = $$('exportHint'); if (eh) eh.textContent = T('يُصدَّر ما حدّدته من الصفوف، أو كل النتائج إن لم تحدد شيئاً. ملف Excel يحمل نسخة كاملة مخفية داخله لإعادة استيراده بكل التفاصيل.', 'Exports the rows you ticked, or all results if none are ticked. Excel files carry a hidden full copy so you can import them back.'); syncDates(); buildColTools(); syncQAdv(); updateDsBar();
-    const fb = $$('focusBtn'), fl = $$('filBtn'), em = $$('sideEmpty');
+    const fb = $$('focusBtn'), fl = $$('filBtn'), em = $$('helpVid');
     if (fb) { fb.innerHTML = (foc ? IC.shrink : IC.expand) + '<span class="lbl">' + T(foc ? 'خروج' : 'وضع التركيز', foc ? 'Exit' : 'Focus') + '</span>'; fb.title = T('تكبير البحث والجدول وإخفاء كل شيء آخر', 'Maximise search + table, hide everything else'); fb.classList.toggle('on', foc); }
     if (fl) { const n = activeFilters(); fl.innerHTML = IC.sliders + '<span class="lbl">' + T('فلاتر', 'Filters') + '</span>' + (n ? `<i class="dot">${n}</i>` : ''); fl.classList.toggle('on', document.body.classList.contains('fil')); }
-    if (em) em.innerHTML = '<b>' + T('👋 ابدأ من هنا', '👋 Start here') + '</b><div style="color:var(--text-muted);font-size:14px">' + T('أدخل مفتاح API والقناة ثم اضغط سحب. ستظهر هنا بطاقة القناة والإحصائيات والأعمدة والتصدير.', 'Enter your API key and a channel, then fetch. The channel card, statistics, columns and export will appear here.') + '</div><button class="btn btn-outline" onclick="openGuide()">' + T('دليل الاستخدام', 'How to use') + '</button><a class="btn btn-outline" style="margin-top:8px;width:100%" href="promo.html">' + T('شاهد العرض التوضيحي', 'Watch the demo') + '</a>';
+    syncHelp();
     $$('quickSearch').placeholder = T('ابحث بعدة كلمات… (-كلمة للاستبعاد)', 'Search words… (-word excludes)');
     const dn = $$('densBtn'); if (dn) dn.innerHTML = IC.rows + '<span class="bt">' + T(b.classList.contains('dense') ? 'مريح' : 'مضغوط', b.classList.contains('dense') ? 'Comfy' : 'Compact') + '</span>';
 }
@@ -1498,7 +1482,7 @@ function updateMatchCounts() {
 (function () {
         const $i = id => document.getElementById(id), main = document.querySelector('.dash .main'), side = document.querySelector('.dash .side');
         main.prepend($i('apiCard'));
-        const em = document.createElement('div'); em.className = 'card'; em.id = 'sideEmpty'; side.prepend(em);
+        const em = document.createElement('div'); em.className = 'card'; em.id = 'helpVid'; side.prepend(em);
         const tr = document.querySelector('.table-responsive'), w = document.createElement('div'); w.className = 'tswrap'; tr.parentNode.insertBefore(w, tr); w.appendChild(tr);
         w.insertAdjacentHTML('beforeend', '<button class="tsb l" aria-label="scroll left" onclick="tscroll(-1)">‹</button><button class="tsb r" aria-label="scroll right" onclick="tscroll(1)">›</button>');
         const fb = document.createElement('button'); fb.id = 'filBtn'; fb.className = 'btn btn-outline qclr'; fb.onclick = toggleFil; $i('vrS').prepend(fb);
@@ -1723,9 +1707,9 @@ const _gc = getCleanDataForExport;
 getCleanDataForExport = function () {
     if (dataMode !== 'playlists' || !plStats) return _gc();
     const { cols, names } = plCols(), ids = new Set([...document.querySelectorAll('.row-checkbox:checked')].map(c => c.value));
-    const data = ids.size ? plView.filter(p => ids.has(p.id)) : plView, aoa = [['#', ...names]];
-    data.forEach((p, i) => aoa.push([i + 1, ...cols.map(c => plCell(p, c))])); exported = true;
-    return { aoa, dataLength: data.length, cols, data };
+    const data = ids.size ? plView.filter(p => ids.has(p.id)) : plView, off = showNums ? 1 : 0, aoa = [off ? ['#', ...names] : [...names]];
+    data.forEach((p, i) => { const r = cols.map(c => plCell(p, c)); aoa.push(off ? [i + 1, ...r] : r); }); exported = true;
+    return { aoa, dataLength: data.length, cols, data, off };
 };
 const _af = activeFilters;
 activeFilters = function () {
@@ -1909,11 +1893,11 @@ function exportVideoSet() { if (dataMode !== 'playlists') return getCleanDataFor
 
 exportToExcel = async function () {
     if (!(dataMode === 'playlists' ? plView : globalVideosData).length) return alert(T('لا توجد بيانات.', 'No data.'));
-    const { aoa, dataLength, cols, data } = getCleanDataForExport();
+    const { aoa, dataLength, cols, data, off } = getCleanDataForExport();
     const ws = XLSX.utils.aoa_to_sheet(aoa), wb = XLSX.utils.book_new();
     ws['!cols'] = aoa[0].map((_, i) => ({ wch: Math.min(60, Math.max(8, ...aoa.slice(0, 50).map(r => String(r[i]).length))) }));
     ws['!autofilter'] = { ref: ws['!ref'] };
-    const ui = cols.indexOf('url'); if (ui > -1) data.forEach((v, r) => { const c = ws[XLSX.utils.encode_cell({ r: r + 1, c: ui + 1 })]; if (c) c.l = { Target: v.url }; });
+    const ui = cols.indexOf('url'); if (ui > -1) data.forEach((v, r) => { const c = ws[XLSX.utils.encode_cell({ r: r + 1, c: ui + off })]; if (c) c.l = { Target: v.url }; });
     XLSX.utils.book_append_sheet(wb, ws, 'YouTube Data');
     try {
         const packed = await packPayload(buildPayload(exportVideoSet())), rows = [[DATA_MARK]];
@@ -2045,8 +2029,15 @@ function makeZip(files) {
     const end = new DataView(new ArrayBuffer(22)); end.setUint32(0, 0x06054b50, true); end.setUint16(8, files.length, true); end.setUint16(10, files.length, true); end.setUint32(12, cs, true); end.setUint32(16, off, true);
     return new Blob([...parts, ...cen, end.buffer], { type: 'application/zip' });
 }
-const safeName = t => String(t || '').replace(/[\\/:*?"<>|\r\n\t]+/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 60) || 'thumbnail';
 const extOf = b => ({ 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp', 'image/gif': 'gif', 'image/svg+xml': 'svg' })[b.type] || 'jpg';
+/* file name = the full video title only (illegal characters removed; duplicates get " (2)") */
+const cleanTitle = t => String(t || '').replace(/[\\/:*?"<>|\u0000-\u001f]+/g, ' ').replace(/\s+/g, ' ').trim().replace(/[. ]+$/, '');
+function fileBase(title, ext, used) {
+    const enc = new TextEncoder(); let b = cleanTitle(title) || 'thumbnail';
+    if (enc.encode(b).length > 200) { const cs = [...b]; while (cs.length && enc.encode(cs.join('')).length > 200) cs.pop(); b = cs.join('').trim() || 'thumbnail'; }
+    let n = b, k = 1; while (used.has((n + '.' + ext).toLowerCase())) n = `${b} (${++k})`;
+    used.add((n + '.' + ext).toLowerCase()); return n + '.' + ext;
+}
 function thumbCands(v) {
     const c = [];
     if (/^[\w-]{11}$/.test(v.id || '')) ['maxresdefault', 'sddefault', 'hqdefault', 'mqdefault'].forEach(n => c.push(`https://i.ytimg.com/vi/${v.id}/${n}.jpg`));
@@ -2061,31 +2052,33 @@ async function fetchThumb(cands) {
     }
     return { fail: true, net: net === cands.length };
 }
+/* ticked rows if any, otherwise ALL current results (same rule as the other exports) */
 function selectedItems() {
-    const ids = new Set([...document.querySelectorAll('.row-checkbox:checked')].map(c => c.value));
-    if (dataMode === 'playlists' && plStats) return plStats.filter(p => ids.has(p.id)).map(p => ({ title: p.title, id: p.id, cands: thumbCands({ id: '', thumb: p.thumb }) }));
-    return rawVideosData.filter(v => ids.has(v.id)).map(v => ({ title: v.title, id: v.id, cands: thumbCands(v) }));
+    const ids = new Set([...document.querySelectorAll('.row-checkbox:checked')].map(c => c.value)), pl = dataMode === 'playlists' && plStats;
+    const src = pl ? plView : globalVideosData, list = ids.size ? src.filter(x => ids.has(x.id)) : src;
+    return list.map(x => ({ title: x.title, id: x.id, cands: thumbCands(pl ? { id: '', thumb: x.thumb } : x) }));
 }
 let thumbBusy = false;
 async function downloadThumbs() {
     if (thumbBusy) return; const items = selectedItems();
-    if (!items.length) return toast(T('حدّد فيديوهات أولاً بمربعات الاختيار', 'Tick some rows first'));
-    thumbBusy = true; document.body.classList.add('thbusy'); let done = 0; const out = new Array(items.length), pad = String(items.length).length;
+    if (!items.length) return toast(T('لا توجد صور لتصديرها', 'No images to export'));
+    if (!document.querySelector('.row-checkbox:checked') && items.length > 300 && !confirm(T(`سيتم تحميل ${items.length} صورة وقد يستغرق ذلك بعض الوقت. متابعة؟`, `This will download ${items.length} images and may take a while. Continue?`))) return;
+    thumbBusy = true; document.body.classList.add('thbusy'); let done = 0; const out = new Array(items.length), used = new Set();
     const tick = () => toast(T(`جاري تحميل الصور ${done} / ${items.length}…`, `Downloading images ${done} / ${items.length}…`));
     tick(); let ni = 0;
     try {
-        await Promise.all(Array.from({ length: 5 }, async () => { while (ni < items.length) { const i = ni++; out[i] = await fetchThumb(items[i].cands); done++; tick(); } }));
+        await Promise.all(Array.from({ length: 6 }, async () => { while (ni < items.length) { const i = ni++; out[i] = await fetchThumb(items[i].cands); done++; tick(); } }));
         const ok = [], bad = [];
         for (let i = 0; i < items.length; i++) { const r = out[i]; if (r && !r.fail) ok.push({ it: items[i], r, i }); else bad.push(items[i]); }
         if (!ok.length) {
-            const urls = items.flatMap(x => x.cands.slice(0, 1)).join('\n'); try { await navigator.clipboard.writeText(urls); } catch (e) {}
+            const urls = items.flatMap(x => x.cands.slice(0, 1)).join('\n'); await copyText(urls);
             alert(T('تعذر تحميل الصور مباشرة (قد يمنعها المتصفح أو الاتصال). نسخت روابط الصور إلى الحافظة لفتحها أو تحميلها بأداة أخرى.', 'Could not download the images directly (blocked by the browser or network). Image links were copied to the clipboard.')); return;
         }
         const stamp = ($$('chTitle').textContent || 'YouTube').replace(/[\\/:*?"<>|]/g, '').trim() || 'YouTube';
         if (ok.length === 1) {
-            const { it, r } = ok[0], a = document.createElement('a'); a.href = URL.createObjectURL(r.blob); a.download = `${safeName(it.title)} [${it.id}].${extOf(r.blob)}`; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+            const { it, r } = ok[0], a = document.createElement('a'); a.href = URL.createObjectURL(r.blob); a.download = fileBase(it.title, extOf(r.blob), used); document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
         } else {
-            const files = []; for (const { it, r, i } of ok) files.push({ name: `${String(i + 1).padStart(pad, '0')} - ${safeName(it.title)} [${it.id}].${extOf(r.blob)}`, data: new Uint8Array(await r.blob.arrayBuffer()) });
+            const files = []; for (const { it, r, i } of ok) files.push({ name: fileBase(it.title, extOf(r.blob), used), data: new Uint8Array(await r.blob.arrayBuffer()) });
             const a = document.createElement('a'); a.href = URL.createObjectURL(makeZip(files)); a.download = `${stamp}_thumbnails_${ok.length}.zip`; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 8000);
         }
         toast(bad.length ? T(`تم تحميل ${ok.length} صورة • تعذر ${bad.length}`, `Downloaded ${ok.length} • ${bad.length} failed`) : T(`تم تحميل ${ok.length} صورة ✓`, `Downloaded ${ok.length} image(s) ✓`));
@@ -2095,12 +2088,13 @@ async function downloadThumbs() {
 (function () {
     const cb = $$('copyBtn'); cb.insertAdjacentHTML('afterend', '<button class="btn btn-outline" id="imgBtn" type="button" onclick="downloadThumbs()"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="m21 16-5-5-8 8"/></svg><span class="cw"></span><b class="cc" id="imgCount"></b></button>');
     $$('exportBody').insertAdjacentHTML('beforeend', '<button class="btn btn-outline" id="thBtn" type="button" onclick="downloadThumbs()"></button>');
-    const lab = () => { $$('thBtn').textContent = T('🖼️ صور المحدد (ZIP)', '🖼️ Selected thumbnails (ZIP)'); const w = $$('imgBtn').querySelector('.cw'); if (w) w.textContent = T('صور', 'Images'); $$('imgBtn').title = T('تحميل الصور المصغرة للمحدد', 'Download thumbnails of selected'); };
+    const lab = () => { $$('thBtn').textContent = T('🖼️ تصدير الصور (ZIP)', '🖼️ Export images (ZIP)'); const w = $$('imgBtn').querySelector('.cw'); if (w) w.textContent = T('صور', 'Images'); $$('imgBtn').title = T('تصدير صور المحدد، أو كل النتائج إن لم تحدد شيئاً', 'Export thumbnails of the ticked rows, or of all results if none are ticked'); };
     lab(); const _r7 = renderTabbar; renderTabbar = function () { _r7(); lab(); };
-    const _uc = updateCopyButton; updateCopyButton = function () { _uc(); const n = document.querySelectorAll('.row-checkbox:checked').length, b = $$('imgBtn'); b.style.display = n ? 'inline-flex' : 'none'; $$('imgCount').textContent = n; };
+    const _uc = updateCopyButton; updateCopyButton = function () { _uc(); const n = document.querySelectorAll('.row-checkbox:checked').length, b = $$('imgBtn'), tot = (dataMode === 'playlists' && plStats ? plView : globalVideosData).length; b.style.display = tot ? 'inline-flex' : 'none'; $$('imgCount').textContent = n || tot; };
 })();
 renderTabbar();
+new MutationObserver(syncHelp).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
 </script>
-    <script data-cfasync="false" src="https://bauval.org/14/959f77deac27dba936e9c02e98bc911c"></script>
+<script src="ads.js"></script>
 </body>
 </html>
