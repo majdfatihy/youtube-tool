@@ -31,11 +31,9 @@ if(/^(localhost|127\.|192\.168\.)/.test(location.hostname)) log('env','warn','أ
 log('env', location.protocol==='https:'?'ok':'warn', 'البروتوكول: '+location.protocol+(location.protocol==='https:'?'':' (يُفضّل https)'));
 
 // 2) هل يُحجب النطاق؟
-var probe=document.createElement('script');
-probe.src='https://bauval.org/22/729c9fd7aa7322cef370e2d2f67a5788?probe='+Date.now();
-probe.onload=function(){log('net','ok','تم تحميل سكربت bauval.org بنجاح')};
-probe.onerror=function(){log('net','bad','تعذّر تحميل bauval.org — مانع إعلانات/DNS/شبكة يحجبه. عطّل المانع وجرّب شبكة أخرى.')};
-document.head.appendChild(probe);
+fetch('https://bauval.org/?probe='+Date.now(),{mode:'no-cors',cache:'no-store'})
+  .then(function(){log('net','ok','النطاق bauval.org قابل للوصول (لم يُشغَّل أي سكربت إعلان في هذه الخطوة)')})
+  .catch(function(){log('net','bad','تعذّر الوصول إلى bauval.org — مانع إعلانات/DNS/شبكة يحجبه.')});
 
 // 3) حقن الإعلان مباشرة مع التقاط document.write
 var box=document.getElementById('ad'), ow=document.write, owl=document.writeln;
@@ -53,8 +51,9 @@ function put(html){
 document.write=document.writeln=function(){put(Array.prototype.join.call(arguments,''))};
 window.atOptions={'key':'729c9fd7aa7322cef370e2d2f67a5788','format':'iframe','height':250,'width':300,'params':{}};
 var s=document.createElement('script');
-s.src='https://bauval.org/22/729c9fd7aa7322cef370e2d2f67a5788/invoke.js';
 s.src='https://bauval.org/22/729c9fd7aa7322cef370e2d2f67a5788';
+s.onload=function(){log('res','ok','تم تحميل وتنفيذ سكربت الإعلان')};
+s.onerror=function(){log('res','bad','فشل تحميل سكربت الإعلان (محجوب)')};
 box.appendChild(s);
 
 // 4) الفحص بعد 8 ثوانٍ
