@@ -548,7 +548,7 @@ html body #helpVid:empty{display:none!important}
 </style>
 <script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('ytTheme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'))}catch(e){}</script>
 </head>
-<body>
+<body data-no-support>
 
 <header>
     <a class="logo" href="index.html">🚀 <span id="logoText">أداة يوتيوب الشاملة</span></a>
@@ -2104,6 +2104,6 @@ async function downloadThumbs() {
 renderTabbar();
 new MutationObserver(syncHelp).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
 </script>
-<script src="ads.js"></script>
+<script src="adsterra.js" defer></script>
 </body>
 </html>
