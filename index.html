@@ -1088,15 +1088,26 @@ html body #helpVid:empty{display:none!important}
         const u = new URL('https://www.googleapis.com/youtube/v3/' + path);
         Object.entries(params).forEach(([k, val]) => u.searchParams.set(k, val));
         for (let a = 1; ; a++) {
+            // per-request watchdog: if a single request hangs (no response, no error — just silence),
+            // the old code would await it forever with nothing on screen. Now we cut it off after 20s.
+            const tc = new AbortController(); const onExt = () => tc.abort();
+            if (signal) { if (signal.aborted) tc.abort(); else signal.addEventListener('abort', onExt); }
+            const watchdog = setTimeout(() => tc.abort(), 20000);
             try {
-                const r = await fetch(u, { signal }), d = await r.json();
+                const r = await fetch(u, { signal: tc.signal }), d = await r.json();
                 if (!r.ok) {
                     const er = d.error || {}, reason = er.errors && er.errors[0] ? er.errors[0].reason : '';
                     const msg = reason === 'quotaExceeded' ? T('انتهت حصة API اليومية. جرّب غداً أو بمفتاح آخر.', 'Daily API quota exceeded. Try tomorrow or another key.') : (er.message || 'HTTP ' + r.status);
-                    throw Object.assign(new Error(msg), { fatal: r.status >= 400 && r.status < 500 });
+                    throw Object.assign(new Error(msg), { fatal: r.status >= 400 && r.status < 500, reason });
                 }
                 addQuota(QCOST[path] || 1); return d;
-            } catch (e) { if (e.name === 'AbortError' || e.fatal || a >= tries) throw e; await new Promise(z => setTimeout(z, 500 * a)); }
+            } catch (e) {
+                if (signal && signal.aborted) throw Object.assign(new Error('cancelled'), { name: 'AbortError' });
+                const timedOut = e.name === 'AbortError'; // our own 20s watchdog fired, not a real user cancel
+                if (!timedOut && e.fatal) throw e;
+                if (a >= tries) throw Object.assign(new Error(timedOut ? T('انتهت مهلة الاتصال بالسيرفر بعد عدة محاولات (الشبكة بطيئة أو السيرفر لا يرد).', 'Connection timed out after several attempts (slow network or no server response).') : e.message), { fatal: true, reason: e.reason });
+                await new Promise(z => setTimeout(z, 500 * a));
+            } finally { clearTimeout(watchdog); if (signal) signal.removeEventListener('abort', onExt); }
         }
     }
 
@@ -1129,19 +1140,21 @@ html body #helpVid:empty{display:none!important}
             await loadCats(apiKey, sig);
             showChannel(ch);
 
-            let ids = [], token = '';
+            let ids = [], token = ''; { const seen = new Set(); let stuck = 0, pages = 0;
             do {
                 const pl = await yt('playlistItems', { part: 'contentDetails', playlistId: ch.contentDetails.relatedPlaylists.uploads, maxResults: 50, ...(token && { pageToken: token }), key: apiKey }, sig);
-                lastQuota++; (pl.items || []).forEach(it => ids.push(it.contentDetails.videoId));
-                token = ids.length >= maxV ? '' : (pl.nextPageToken || '');
+                lastQuota++; const items = pl.items || []; items.forEach(it => ids.push(it.contentDetails.videoId));
+                stuck = items.length === 0 ? stuck + 1 : 0; pages++;
+                const nextTok = pl.nextPageToken || ''; const loopDetected = nextTok && seen.has(nextTok); if (nextTok) seen.add(nextTok);
+                token = (ids.length >= maxV || stuck >= 2 || loopDetected || pages >= 1000) ? '' : nextTok;
                 setProg('progress', 5, T('جمع قائمة الفيديوهات: ', 'Collecting video list: ') + ids.length);
-            } while (token);
+            } while (token); }
             ids = ids.slice(0, maxV);
             if (!ids.length) throw new Error(T('لا توجد فيديوهات.', 'No videos found.'));
 
             let shortSet = null, longSet = null;
             try {
-                const base = ch.id.slice(2), grab = async pre => { const set = new Set(); let t = ''; do { const d = await yt('playlistItems', { part: 'contentDetails', playlistId: pre + base, maxResults: 50, ...(t && { pageToken: t }), key: apiKey }, sig); lastQuota++; (d.items || []).forEach(i => set.add(i.contentDetails.videoId)); t = set.size >= maxV ? '' : (d.nextPageToken || ''); } while (t); return set; };
+                const base = ch.id.slice(2), grab = async pre => { const set = new Set(); let t = ''; const seen = new Set(); let stuck = 0, pages = 0; do { const d = await yt('playlistItems', { part: 'contentDetails', playlistId: pre + base, maxResults: 50, ...(t && { pageToken: t }), key: apiKey }, sig); lastQuota++; const items = d.items || []; items.forEach(i => set.add(i.contentDetails.videoId)); stuck = items.length === 0 ? stuck + 1 : 0; pages++; const nextTok = d.nextPageToken || ''; const loopDetected = nextTok && seen.has(nextTok); if (nextTok) seen.add(nextTok); t = (set.size >= maxV || stuck >= 2 || loopDetected || pages >= 1000) ? '' : nextTok; } while (t); return set; };
                 const safe = p => p.catch(e => { if (e.name === 'AbortError') throw e; return new Set(); });
                 [shortSet, longSet] = await Promise.all([safe(grab('UUSH')), safe(grab('UULF'))]);
                 if (!shortSet.size && !longSet.size) shortSet = longSet = null;
@@ -1176,28 +1189,52 @@ html body #helpVid:empty{display:none!important}
             });
             if (document.getElementById('fetchPlaylists').checked) {
                 stat.textContent = T('جاري جلب قوائم التشغيل...', 'Fetching playlists...'); document.getElementById('plBar').style.display = 'block'; setProg('plProgress', 2, T('قوائم التشغيل...', 'Playlists...'));
-                const pls = []; let pt = '';
-                do {
-                    const d = await yt('playlists', { part: 'snippet,contentDetails,status', channelId: ch.id, maxResults: 50, ...(pt && { pageToken: pt }), key: apiKey }, sig);
-                    lastQuota++; (d.items || []).forEach(p => pls.push({ id: p.id, title: p.snippet.title, total: 0, shorts: 0, long: 0, created: (p.snippet.publishedAt || '').slice(0, 10), privacy: p.status ? p.status.privacyStatus : '', desc: p.snippet.description || '', thumb: ((p.snippet.thumbnails || {}).medium || (p.snippet.thumbnails || {}).default || {}).url || '', url: 'https://www.youtube.com/playlist?list=' + p.id, vids: [] })); pt = d.nextPageToken || '';
-                } while (pt);
+                const pls = []; let pt = ''; let quotaHit = false;
+                try {
+                    const seen = new Set(); let stuck = 0, pages = 0;
+                    do {
+                        const d = await yt('playlists', { part: 'snippet,contentDetails,status', channelId: ch.id, maxResults: 50, ...(pt && { pageToken: pt }), key: apiKey }, sig);
+                        lastQuota++; const items = d.items || []; items.forEach(p => pls.push({ id: p.id, title: p.snippet.title, total: 0, shorts: 0, long: 0, created: (p.snippet.publishedAt || '').slice(0, 10), privacy: p.status ? p.status.privacyStatus : '', desc: p.snippet.description || '', thumb: ((p.snippet.thumbnails || {}).medium || (p.snippet.thumbnails || {}).default || {}).url || '', url: 'https://www.youtube.com/playlist?list=' + p.id, vids: [] }));
+                        stuck = items.length === 0 ? stuck + 1 : 0; pages++;
+                        const nextTok = d.nextPageToken || ''; const loopDetected = nextTok && seen.has(nextTok); if (nextTok) seen.add(nextTok);
+                        pt = (stuck >= 2 || loopDetected || pages >= 1000) ? '' : nextTok;
+                        setProg('plProgress', 2, T(`جاري جمع قوائم التشغيل: ${pls.length}`, `Collecting playlists: ${pls.length}`));
+                    } while (pt);
+                } catch (e) { if (e.name === 'AbortError') throw e; if (e.reason === 'quotaExceeded') quotaHit = true; else throw e; }
                 const byId = new Map(rawVideosData.map(v => [v.id, v])); rawVideosData.forEach(v => { v.playlists = []; v.plMeta = {}; });
-                let ni = 0, dn = 0;
-                await Promise.all(Array.from({ length: 4 }, async () => {
-                    while (ni < pls.length) {
-                        const pl = pls[ni++]; let t = '';
+                let ni = 0, dn = 0, fetchedVids = 0;
+                const plCap = isFinite(maxV) ? maxV : Infinity; // respect the same "max videos" cap per playlist, so one huge playlist can't run away
+                if (!quotaHit) await Promise.all(Array.from({ length: 4 }, async () => {
+                    while (ni < pls.length && !quotaHit) {
+                        const pl = pls[ni++]; let t = ''; const seenTokens = new Set(); let pages = 0; let stuckPages = 0;
                         try {
                             do {
                                 const d = await yt('playlistItems', { part: 'snippet,contentDetails', playlistId: pl.id, maxResults: 50, ...(t && { pageToken: t }), key: apiKey }, sig);
-                                lastQuota++; (d.items || []).forEach(it => { const v = byId.get(it.contentDetails.videoId); pl.total++; if (v) { pl.vids.push(v); v.type === 'short' ? pl.shorts++ : pl.long++; if (!v.playlists.includes(pl.title)) v.playlists.push(pl.title); v.plMeta[pl.title] = { pos: ((it.snippet && it.snippet.position) || 0) + 1, added: ((it.snippet && it.snippet.publishedAt) || '').slice(0, 10) }; } }); t = d.nextPageToken || '';
+                                lastQuota++; const items = d.items || [];
+                                items.forEach(it => { const v = byId.get(it.contentDetails.videoId); pl.total++; if (v) { pl.vids.push(v); v.type === 'short' ? pl.shorts++ : pl.long++; if (!v.playlists.includes(pl.title)) v.playlists.push(pl.title); v.plMeta[pl.title] = { pos: ((it.snippet && it.snippet.position) || 0) + 1, added: ((it.snippet && it.snippet.publishedAt) || '').slice(0, 10) }; } });
+                                fetchedVids += items.length; pages++;
+                                stuckPages = items.length === 0 ? stuckPages + 1 : 0; // YouTube sometimes keeps handing back a nextPageToken on an exhausted/broken playlist with no items — 2 empty pages in a row means there's really nothing left
+                                const nextTok = d.nextPageToken || '';
+                                const loopDetected = nextTok && seenTokens.has(nextTok);
+                                if (nextTok) seenTokens.add(nextTok);
+                                t = (pl.total >= plCap || stuckPages >= 2 || loopDetected || pages >= 1000) ? '' : nextTok;
+                                const livePp = Math.min(99, Math.round(dn / pls.length * 100));
+                                setProg('plProgress', livePp, T(`قوائم التشغيل ${dn} / ${pls.length} • جاري فحص «${shortPl(pl.title, 4)}» (${nf(fetchedVids)} فيديو حتى الآن)`, `Playlists ${dn} / ${pls.length} • scanning "${shortPl(pl.title, 4)}" (${nf(fetchedVids)} videos so far)`));
                             } while (t);
-                        } catch (e) { if (e.name === 'AbortError') throw e; }
-                        const pp = Math.round(++dn / pls.length * 100); setProg('plProgress', pp, T(`قوائم التشغيل ${dn} / ${pls.length} • ${pp}%`, `Playlists ${dn} / ${pls.length} • ${pp}%`));
+                        } catch (e) {
+                            if (e.name === 'AbortError') throw e;
+                            if (e.reason === 'quotaExceeded') { quotaHit = true; break; }
+                            // non-fatal error on this one playlist: skip it and keep going with the rest
+                        }
+                        dn++;
+                        const pp = dn >= pls.length ? 100 : Math.min(99, Math.round(dn / pls.length * 100));
+                        setProg('plProgress', pp, T(`قوائم التشغيل ${dn} / ${pls.length} • ${pp}%`, `Playlists ${dn} / ${pls.length} • ${pp}%`));
                     }
                 }));
                 const sel = document.getElementById('livePlaylist');
                 sel.innerHTML = '<option value="">' + T('الكل', 'All') + '</option>' + [...new Set(pls.map(p => p.title))].map(t => `<option value="${esc(t)}" title="${esc(t)}">${esc(shortPl(t, 5))}</option>`).join('');
                 pls.forEach(finalizePl); plStats = pls; sel.parentElement.style.display = ''; document.querySelector('#columnSelectors input[value=playlists]').checked = true;
+                if (quotaHit) stat.textContent = T(`⚠️ انتهت حصة API أثناء جلب قوائم التشغيل — تم حفظ ${dn} من ${pls.length} قائمة فقط. جرّب غداً أو بمفتاح آخر لإكمال الباقي.`, `⚠️ API quota ran out while fetching playlists — only ${dn}/${pls.length} playlists were completed. Try tomorrow or another key to finish the rest.`);
             }
             setProg('progress', 100, T(`اكتمل ✅ ${rawVideosData.length} فيديو`, `Done ✅ ${rawVideosData.length} videos`)); isDataLoaded = true; stat.textContent = successMsg();
             document.getElementById('controlPanelCard').style.display = 'block'; document.getElementById('exportCard').style.display = 'block';
